@@ -1,10 +1,11 @@
-package job_test
+package example
 
 import (
 	"context"
 	"fmt"
 	jenkins "github.com/reaperhero/client-jenkins-go"
 	"github.com/sirupsen/logrus"
+	"os"
 	"testing"
 )
 
@@ -30,7 +31,7 @@ func init() {
 	}
 }
 
-func TestCreateJobInView(t *testing.T) {
+func TestAddJobToView(t *testing.T) {
 	var (
 		cn context.Context = context.Background()
 	)
@@ -44,9 +45,18 @@ func TestCreateFolder(t *testing.T) {
 	var (
 		cn context.Context = context.Background()
 	)
-	if folder,err:=jc.CreateFolder(cn,"test_folder");err==nil{
+	if folder, err := jc.CreateFolder(cn, "test_folder"); err == nil {
 		logrus.Info(folder)
 	}
+}
+
+func TestCreateView(t *testing.T) {
+	view,err:=jc.CreateView(jc.Context, "viewName", jenkins.DetectViewType("LIST_VIEW"))
+	if err != nil {
+		logrus.Println(err)
+		os.Exit(1)
+	}
+	logrus.Info(view)
 }
 
 

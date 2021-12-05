@@ -14,7 +14,11 @@
 
 package gojenkins
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"fmt"
+	"os"
+)
 
 func makeJson(data interface{}) string {
 	str, err := json.Marshal(data)
@@ -22,4 +26,31 @@ func makeJson(data interface{}) string {
 		return ""
 	}
 	return string(json.RawMessage(str))
+}
+
+
+func DetectViewType(view string) string {
+	viewSelected := ""
+	switch view {
+	case "LIST_VIEW":
+		viewSelected = "hudson.model.ListView"
+		break
+	case "NESTED_VIEW":
+		viewSelected = "hudson.plugins.nested_view.NestedView"
+		break
+	case "MY_VIEW":
+		viewSelected = "hudson.model.MyView"
+		break
+	case "DASHBOARD_VIEW":
+		viewSelected = "hudson.plugins.view.dashboard.Dashboard"
+		break
+	case "PIPELINE_VIEW":
+		viewSelected = "au.com.centrumsystems.hudson.plugin.buildpipeline.BuildPipelineView"
+		break
+	default:
+		fmt.Println("error: use only views supported: LIST_VIEW, NESTED_VIEW, MY_VIEW, DASHBOARD_VIEW, PIPELINE_VIEW")
+		os.Exit(1)
+	}
+
+	return viewSelected
 }

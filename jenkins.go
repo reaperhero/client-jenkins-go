@@ -39,6 +39,7 @@ type Jenkins struct {
 	Raw       *ExecutorResponse
 	Token     string
 	Requester *Requester
+	Context   context.Context
 }
 
 // Loggers
@@ -598,15 +599,18 @@ func (j *Jenkins) Poll(ctx context.Context) (int, error) {
 // Optional parameters are: client, username, password or token
 // After creating an instance call init method.
 func CreateJenkins(client *http.Client, base string, auth ...interface{}) *Jenkins {
-	j := &Jenkins{}
 	if strings.HasSuffix(base, "/") {
 		base = base[:len(base)-1]
 	}
-	j.Server = base
-	j.Requester = &Requester{Base: base, SslVerify: true, Client: client}
-	if j.Requester.Client == nil {
-		j.Requester.Client = http.DefaultClient
+	if client == nil {
+		client = http.DefaultClient
 	}
+	j := &Jenkins{
+		Server:    base,
+		Requester: &Requester{Base: base, SslVerify: true, Client: client},
+		Context:   context.Background(),
+	}
+
 	if len(auth) == 2 {
 		j.Requester.BasicAuth = &BasicAuth{Username: auth[0].(string), Password: auth[1].(string)}
 	}
