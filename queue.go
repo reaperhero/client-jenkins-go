@@ -5,8 +5,6 @@ import (
 	"strconv"
 )
 
-
-
 type Queue struct {
 	Jenkins *Jenkins
 	Raw     *queueResponse
