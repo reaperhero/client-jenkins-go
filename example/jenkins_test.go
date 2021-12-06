@@ -1,54 +1,54 @@
-package gojenkins
+package example
 
 import (
 	"context"
-	"github.com/reaperhero/client-jenkins-go/example"
+	"github.com/reaperhero/client-jenkins-go"
+	"github.com/reaperhero/client-jenkins-go/utils"
+	"github.com/stretchr/testify/assert"
 	"io/ioutil"
 	"os"
 	"testing"
 	"time"
-
-	"github.com/stretchr/testify/assert"
 )
 
 var (
-	jenkins *Jenkins
+	jenkins *gojenkins.Jenkins
 	queueID int64
 )
 
 func TestInit(t *testing.T) {
-	if _, ok := os.LookupEnv(example.integration_test); !ok {
+	if _, ok := os.LookupEnv(integration_test); !ok {
 		return
 	}
 	ctx := context.Background()
-	jenkins = CreateJenkins(nil, "http://localhost:8080", "admin", "admin")
+	jenkins = gojenkins.CreateJenkins(nil, "http://localhost:8080", "admin", "admin")
 	_, err := jenkins.Init(ctx)
 	assert.Nil(t, err, "Jenkins Initialization should not fail")
 }
 
 func TestCreateJobs(t *testing.T) {
-	if _, ok := os.LookupEnv(example.integration_test); !ok {
+	if _, ok := os.LookupEnv(integration_test); !ok {
 		return
 	}
 	job1ID := "Job1_test"
 	job2ID := "job2_test"
-	job_data := getFileAsString("job.xml")
+	jobData := getFileAsString("job.xml")
 
 	ctx := context.Background()
-	job1, err := jenkins.CreateJob(ctx, job_data, job1ID)
+	job1, err := jenkins.CreateJob(ctx, jobData, job1ID)
 	assert.Nil(t, err)
 	assert.NotNil(t, job1)
 	assert.Equal(t, "Some Job Description", job1.GetDescription())
 	assert.Equal(t, job1ID, job1.GetName())
 
-	job2, _ := jenkins.CreateJob(ctx, job_data, job2ID)
+	job2, _ := jenkins.CreateJob(ctx, jobData, job2ID)
 	assert.NotNil(t, job2)
 	assert.Equal(t, "Some Job Description", job2.GetDescription())
 	assert.Equal(t, job2ID, job2.GetName())
 }
 
 func TestCreateNodes(t *testing.T) {
-	if _, ok := os.LookupEnv(example.integration_test); !ok {
+	if _, ok := os.LookupEnv(integration_test); !ok {
 		return
 	}
 	id1 := "node1_test"
@@ -73,7 +73,7 @@ func TestCreateNodes(t *testing.T) {
 }
 
 func TestDeleteNodes(t *testing.T) {
-	if _, ok := os.LookupEnv(example.integration_test); !ok {
+	if _, ok := os.LookupEnv(integration_test); !ok {
 		return
 	}
 	id := "node4_test"
@@ -84,7 +84,7 @@ func TestDeleteNodes(t *testing.T) {
 }
 
 func TestCreateBuilds(t *testing.T) {
-	if _, ok := os.LookupEnv(example.integration_test); !ok {
+	if _, ok := os.LookupEnv(integration_test); !ok {
 		return
 	}
 	ctx := context.Background()
@@ -103,7 +103,7 @@ func TestCreateBuilds(t *testing.T) {
 }
 
 func TestGetQueueItem(t *testing.T) {
-	if _, ok := os.LookupEnv(example.integration_test); !ok {
+	if _, ok := os.LookupEnv(integration_test); !ok {
 		return
 	}
 	ctx := context.Background()
@@ -117,38 +117,38 @@ func TestGetQueueItem(t *testing.T) {
 }
 
 func TestParseBuildHistory(t *testing.T) {
-	if _, ok := os.LookupEnv(example.integration_test); !ok {
+	if _, ok := os.LookupEnv(integration_test); !ok {
 		return
 	}
 	r, err := os.Open("_tests/build_history.txt")
 	if err != nil {
 		panic(err)
 	}
-	history := parseBuildHistory(r)
+	history := utils.ParseBuildHistory(r)
 	assert.True(t, len(history) == 3)
 }
 
 func TestCreateViews(t *testing.T) {
-	if _, ok := os.LookupEnv(example.integration_test); !ok {
+	if _, ok := os.LookupEnv(integration_test); !ok {
 		return
 	}
 	ctx := context.Background()
-	list_view, err := jenkins.CreateView(ctx, "test_list_view", LIST_VIEW)
+	listView, err := jenkins.CreateView(ctx, "test_list_view", gojenkins.LIST_VIEW)
 	assert.Nil(t, err)
-	assert.Equal(t, "test_list_view", list_view.GetName())
-	assert.Equal(t, "", list_view.GetDescription())
-	assert.Equal(t, 0, len(list_view.GetJobs()))
+	assert.Equal(t, "test_list_view", listView.GetName())
+	assert.Equal(t, "", listView.GetDescription())
+	assert.Equal(t, 0, len(listView.GetJobs()))
 
-	my_view, err := jenkins.CreateView(ctx, "test_my_view", MY_VIEW)
+	myView, err := jenkins.CreateView(ctx, "test_my_view", gojenkins.MY_VIEW)
 	assert.Nil(t, err)
-	assert.Equal(t, "test_my_view", my_view.GetName())
-	assert.Equal(t, "", my_view.GetDescription())
-	assert.Equal(t, 2, len(my_view.GetJobs()))
+	assert.Equal(t, "test_my_view", myView.GetName())
+	assert.Equal(t, "", myView.GetDescription())
+	assert.Equal(t, 2, len(myView.GetJobs()))
 
 }
 
 func TestGetAllJobs(t *testing.T) {
-	if _, ok := os.LookupEnv(example.integration_test); !ok {
+	if _, ok := os.LookupEnv(integration_test); !ok {
 		return
 	}
 	ctx := context.Background()
@@ -158,7 +158,7 @@ func TestGetAllJobs(t *testing.T) {
 }
 
 func TestGetAllNodes(t *testing.T) {
-	if _, ok := os.LookupEnv(example.integration_test); !ok {
+	if _, ok := os.LookupEnv(integration_test); !ok {
 		return
 	}
 	ctx := context.Background()
@@ -168,7 +168,7 @@ func TestGetAllNodes(t *testing.T) {
 }
 
 func TestGetAllBuilds(t *testing.T) {
-	if _, ok := os.LookupEnv(example.integration_test); !ok {
+	if _, ok := os.LookupEnv(integration_test); !ok {
 		return
 	}
 	ctx := context.Background()
@@ -181,7 +181,7 @@ func TestGetAllBuilds(t *testing.T) {
 }
 
 func TestGetLabel(t *testing.T) {
-	if _, ok := os.LookupEnv(example.integration_test); !ok {
+	if _, ok := os.LookupEnv(integration_test); !ok {
 		return
 	}
 	ctx := context.Background()
@@ -210,10 +210,10 @@ func TestGetLabel(t *testing.T) {
 }
 
 func TestBuildMethods(t *testing.T) {
-	if _, ok := os.LookupEnv(example.integration_test); !ok {
+	if _, ok := os.LookupEnv(integration_test); !ok {
 		return
 	}
-	if _, ok := os.LookupEnv(example.integration_test); !ok {
+	if _, ok := os.LookupEnv(integration_test); !ok {
 		return
 	}
 	ctx := context.Background()
@@ -224,10 +224,10 @@ func TestBuildMethods(t *testing.T) {
 }
 
 func TestGetSingleJob(t *testing.T) {
-	if _, ok := os.LookupEnv(example.integration_test); !ok {
+	if _, ok := os.LookupEnv(integration_test); !ok {
 		return
 	}
-	if _, ok := os.LookupEnv(example.integration_test); !ok {
+	if _, ok := os.LookupEnv(integration_test); !ok {
 		return
 	}
 	ctx := context.Background()
@@ -240,7 +240,7 @@ func TestGetSingleJob(t *testing.T) {
 }
 
 func TestEnableDisableJob(t *testing.T) {
-	if _, ok := os.LookupEnv(example.integration_test); !ok {
+	if _, ok := os.LookupEnv(integration_test); !ok {
 		return
 	}
 	ctx := context.Background()
@@ -252,7 +252,7 @@ func TestEnableDisableJob(t *testing.T) {
 }
 
 func TestCopyDeleteJob(t *testing.T) {
-	if _, ok := os.LookupEnv(example.integration_test); !ok {
+	if _, ok := os.LookupEnv(integration_test); !ok {
 		return
 	}
 	ctx := context.Background()
@@ -263,17 +263,9 @@ func TestCopyDeleteJob(t *testing.T) {
 	assert.Equal(t, true, jobDelete)
 }
 
-func TestGetPlugins(t *testing.T) {
-	if _, ok := os.LookupEnv(example.integration_test); !ok {
-		return
-	}
-	ctx := context.Background()
-	plugins, _ := jenkins.GetPlugins(ctx, 3)
-	assert.Equal(t, 10, plugins.Count())
-}
 
 func TestGetViews(t *testing.T) {
-	if _, ok := os.LookupEnv(example.integration_test); !ok {
+	if _, ok := os.LookupEnv(integration_test); !ok {
 		return
 	}
 	ctx := context.Background()
@@ -283,7 +275,7 @@ func TestGetViews(t *testing.T) {
 }
 
 func TestGetSingleView(t *testing.T) {
-	if _, ok := os.LookupEnv(example.integration_test); !ok {
+	if _, ok := os.LookupEnv(integration_test); !ok {
 		return
 	}
 	ctx := context.Background()
@@ -294,48 +286,8 @@ func TestGetSingleView(t *testing.T) {
 	assert.Equal(t, view2.Raw.Name, "test_list_view")
 }
 
-func TestCreateFolder(t *testing.T) {
-	if _, ok := os.LookupEnv(example.integration_test); !ok {
-		return
-	}
-	ctx := context.Background()
-	folder1ID := "folder1_test"
-	folder2ID := "folder2_test"
-
-	folder1, err := jenkins.CreateFolder(ctx, folder1ID)
-	assert.Nil(t, err)
-	assert.NotNil(t, folder1)
-	assert.Equal(t, folder1ID, folder1.GetName())
-
-	folder2, err := jenkins.CreateFolder(ctx, folder2ID, folder1ID)
-	assert.Nil(t, err)
-	assert.NotNil(t, folder2)
-	assert.Equal(t, folder2ID, folder2.GetName())
-}
-
-func TestCreateJobInFolder(t *testing.T) {
-	if _, ok := os.LookupEnv(example.integration_test); !ok {
-		return
-	}
-	ctx := context.Background()
-	jobName := "Job_test"
-	job_data := getFileAsString("job.xml")
-
-	job1, err := jenkins.CreateJobInFolder(ctx, job_data, jobName, "folder1_test")
-	assert.Nil(t, err)
-	assert.NotNil(t, job1)
-	assert.Equal(t, "Some Job Description", job1.GetDescription())
-	assert.Equal(t, jobName, job1.GetName())
-
-	job2, err := jenkins.CreateJobInFolder(ctx, job_data, jobName, "folder1_test", "folder2_test")
-	assert.Nil(t, err)
-	assert.NotNil(t, job2)
-	assert.Equal(t, "Some Job Description", job2.GetDescription())
-	assert.Equal(t, jobName, job2.GetName())
-}
-
 func TestGetFolder(t *testing.T) {
-	if _, ok := os.LookupEnv(example.integration_test); !ok {
+	if _, ok := os.LookupEnv(integration_test); !ok {
 		return
 	}
 	ctx := context.Background()
@@ -353,7 +305,7 @@ func TestGetFolder(t *testing.T) {
 	assert.Equal(t, folder2ID, folder2.GetName())
 }
 func TestInstallPlugin(t *testing.T) {
-	if _, ok := os.LookupEnv(example.integration_test); !ok {
+	if _, ok := os.LookupEnv(integration_test); !ok {
 		return
 	}
 	ctx := context.Background()
@@ -364,7 +316,7 @@ func TestInstallPlugin(t *testing.T) {
 }
 
 func TestConcurrentRequests(t *testing.T) {
-	if _, ok := os.LookupEnv(example.integration_test); !ok {
+	if _, ok := os.LookupEnv(integration_test); !ok {
 		return
 	}
 	ctx := context.Background()

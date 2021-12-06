@@ -518,7 +518,7 @@ func (job *Job) History(ctx context.Context) ([]*History, error) {
 		return nil, err
 	}
 
-	return parseBuildHistory(strings.NewReader(s)), nil
+	return utils.ParseBuildHistory(strings.NewReader(s)), nil
 }
 
 func (run *PipelineRun) ProceedInput(ctx context.Context) (bool, error) {

@@ -1,6 +1,7 @@
-package gojenkins
+package utils
 
 import (
+	"github.com/reaperhero/client-jenkins-go"
 	"io"
 	"strconv"
 	"strings"
@@ -9,13 +10,13 @@ import (
 )
 
 // Parse jenkins ajax response in order find the current jenkins build history
-func parseBuildHistory(d io.Reader) []*History {
+func ParseBuildHistory(d io.Reader) []*gojenkins.History {
 	z := html.NewTokenizer(d)
 	depth := 0
 	buildRowCellDepth := -1
-	builds := make([]*History, 0)
+	builds := make([]*gojenkins.History, 0)
 	isInsideDisplayName := false
-	var curBuild *History
+	var curBuild *gojenkins.History
 	for {
 		tt := z.Next()
 		switch tt {
@@ -47,7 +48,7 @@ func parseBuildHistory(d io.Reader) []*History {
 				if string(tn) == "td" {
 					if hasCSSClass(a, "build-row-cell") {
 						buildRowCellDepth = depth
-						curBuild = &History{}
+						curBuild = &gojenkins.History{}
 						builds = append(builds, curBuild)
 					}
 				}
