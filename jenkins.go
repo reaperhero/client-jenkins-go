@@ -19,6 +19,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"github.com/reaperhero/client-jenkins-go/utils"
 	"log"
 	"net/http"
 	"os"
@@ -152,7 +153,7 @@ func (j *Jenkins) CreateNode(ctx context.Context, name string, numExecutors int,
 	qr := map[string]string{
 		"name": name,
 		"type": NODE_TYPE,
-		"json": makeJson(map[string]interface{}{
+		"json": utils.makeJson(map[string]interface{}{
 			"name":               name,
 			"nodeDescription":    description,
 			"remoteFS":           remoteFS,
@@ -570,7 +571,7 @@ func (j *Jenkins) CreateView(ctx context.Context, name string, viewType string) 
 		"name":   name,
 		"mode":   viewType,
 		"Submit": "OK",
-		"json": makeJson(map[string]string{
+		"json": utils.makeJson(map[string]string{
 			"name": name,
 			"mode": viewType,
 		}),

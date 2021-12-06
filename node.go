@@ -17,6 +17,7 @@ package gojenkins
 import (
 	"context"
 	"errors"
+	"github.com/reaperhero/client-jenkins-go/utils"
 )
 
 // Nodes
@@ -206,7 +207,7 @@ func (n *Node) LaunchNodeBySSH(ctx context.Context) (int, error) {
 func (n *Node) Disconnect(ctx context.Context) (int, error) {
 	qr := map[string]string{
 		"offlineMessage": "",
-		"json":           makeJson(map[string]string{"offlineMessage": ""}),
+		"json":           utils.makeJson(map[string]string{"offlineMessage": ""}),
 		"Submit":         "Yes",
 	}
 	response, err := n.Jenkins.Requester.Post(ctx, n.Base+"/doDisconnect", nil, nil, qr)

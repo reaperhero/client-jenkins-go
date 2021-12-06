@@ -20,6 +20,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/reaperhero/client-jenkins-go/utils"
 	"net/url"
 	"path"
 	"strconv"
@@ -504,7 +505,7 @@ func (j *Job) Invoke(ctx context.Context, files []string, skipIfRunning bool, pa
 		reqParams["token"] = securityToken
 	}
 
-	buildParams["json"] = string(makeJson(params))
+	buildParams["json"] = string(utils.makeJson(params))
 	b, _ := json.Marshal(buildParams)
 	resp, err := j.Jenkins.Requester.PostFiles(ctx, j.Base+base, bytes.NewBuffer(b), nil, reqParams, files)
 	if err != nil {
@@ -539,7 +540,7 @@ func (pr *PipelineRun) ProceedInput(ctx context.Context) (bool, error) {
 	data := url.Values{}
 	data.Set("inputId", actions[0].ID)
 	params := make(map[string]string)
-	data.Set("json", makeJson(params))
+	data.Set("json", utils.makeJson(params))
 
 	href := pr.Base + "/wfapi/inputSubmit"
 
@@ -557,7 +558,7 @@ func (pr *PipelineRun) AbortInput(ctx context.Context) (bool, error) {
 	actions, _ := pr.GetPendingInputActions(ctx)
 	data := url.Values{}
 	params := make(map[string]string)
-	data.Set("json", makeJson(params))
+	data.Set("json", utils.makeJson(params))
 
 	href := pr.Base + "/input/" + actions[0].ID + "/abort"
 

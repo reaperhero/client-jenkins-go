@@ -17,6 +17,7 @@ package gojenkins
 import (
 	"context"
 	"errors"
+	"github.com/reaperhero/client-jenkins-go/utils"
 	"strconv"
 	"strings"
 )
@@ -52,7 +53,7 @@ func (f *Folder) Create(ctx context.Context, name string) (*Folder, error) {
 		"name":   name,
 		"mode":   mode,
 		"Submit": "OK",
-		"json": makeJson(map[string]string{
+		"json": utils.makeJson(map[string]string{
 			"name": name,
 			"mode": mode,
 		}),

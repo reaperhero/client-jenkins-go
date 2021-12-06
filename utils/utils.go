@@ -12,7 +12,7 @@
 // License for the specific language governing permissions and limitations
 // under the License.
 
-package gojenkins
+package utils
 
 import (
 	"encoding/json"
@@ -27,7 +27,6 @@ func makeJson(data interface{}) string {
 	}
 	return string(json.RawMessage(str))
 }
-
 
 func DetectViewType(view string) string {
 	viewSelected := ""
@@ -53,4 +52,25 @@ func DetectViewType(view string) string {
 	}
 
 	return viewSelected
+}
+
+func ShowStatus(object string) {
+	switch object {
+	case "blue":
+		fmt.Printf("Status: ✅ Success\n")
+		break
+	case "red":
+		fmt.Printf("Status: ❌ Failed\n")
+		break
+	case "red_anime", "blue_anime", "yellow_anime", "gray_anime", "notbuild_anime":
+		fmt.Printf("Status: ⏳ In Progress\n")
+		break
+	case "notbuilt":
+		fmt.Printf("Status: 🚧 Not Build\n")
+		break
+	default:
+		if len(object) > 0 {
+			fmt.Printf("Status: %s\n", object)
+		}
+	}
 }
