@@ -13,9 +13,7 @@
 // under the License.
 //
 // this file implements the pipeline-stage-view API:
-// https://github.com/jenkinsci/pipeline-stage-view-plugin/tree/master/rest-api
-
-package gojenkins
+// https://github.com/jenkinsci/pipeline-stage-view-plugin/tree/master/rest-apipackage gojenkins
 
 import (
 	"context"
