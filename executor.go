@@ -4,10 +4,12 @@ type Executor struct {
 	Raw     *ExecutorResponse
 	Jenkins *Jenkins
 }
+
 type ViewData struct {
 	Name string `json:"name"`
 	URL  string `json:"url"`
 }
+
 type ExecutorResponse struct {
 	AssignedLabels  []map[string]string `json:"assignedLabels"`
 	Description     interface{}         `json:"description"`

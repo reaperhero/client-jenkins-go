@@ -80,7 +80,7 @@ func (run *PipelineRun) update() {
 	}
 }
 
-func (job *Job) GetPipelineRuns(ctx context.Context) (pr []PipelineRun, err error) {
+func (j *Job) GetPipelineRuns(ctx context.Context) (pr []PipelineRun, err error) {
 	_, err = job.Jenkins.Requester.GetJSON(ctx, job.Base+"/wfapi/runs", &pr, nil)
 	if err != nil {
 		return nil, err
@@ -93,7 +93,7 @@ func (job *Job) GetPipelineRuns(ctx context.Context) (pr []PipelineRun, err erro
 	return pr, nil
 }
 
-func (job *Job) GetPipelineRun(ctx context.Context, id string) (pr *PipelineRun, err error) {
+func (j *Job) GetPipelineRun(ctx context.Context, id string) (pr *PipelineRun, err error) {
 	pr = new(PipelineRun)
 	href := job.Base + "/" + id + "/wfapi/describe"
 	_, err = job.Jenkins.Requester.GetJSON(ctx, href, pr, nil)
