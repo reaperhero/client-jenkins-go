@@ -3,7 +3,7 @@ package example
 import (
 	"context"
 	"fmt"
-	jenkins "github.com/reaperhero/client-jenkins-go"
+	gojenkins "github.com/reaperhero/client-jenkins-go"
 	"github.com/reaperhero/client-jenkins-go/utils"
 	"github.com/sirupsen/logrus"
 	"os"
@@ -11,12 +11,12 @@ import (
 )
 
 var (
-	jc  *jenkins.Jenkins
+	jc  *gojenkins.Jenkins
 	err error
 )
 
 func init() {
-	if jc, err = jenkins.CreateJenkins(
+	if jc, err = gojenkins.CreateJenkins(
 		nil,
 		"https://jenkins.mydomain.com",
 		"jenkins-operator",
@@ -66,7 +66,6 @@ func TestGetPlugins(t *testing.T) {
 	}
 }
 
-
 func TestGetView(t *testing.T) {
 	views, err := jc.GetView(jc.Context, "All")
 	if err != nil {
@@ -80,4 +79,3 @@ func TestGetView(t *testing.T) {
 		fmt.Printf("\n")
 	}
 }
-

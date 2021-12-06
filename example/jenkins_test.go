@@ -263,7 +263,6 @@ func TestCopyDeleteJob(t *testing.T) {
 	assert.Equal(t, true, jobDelete)
 }
 
-
 func TestGetViews(t *testing.T) {
 	if _, ok := os.LookupEnv(integration_test); !ok {
 		return

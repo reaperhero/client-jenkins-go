@@ -1,5 +1,3 @@
-
-
 package utils
 
 import (
@@ -8,7 +6,6 @@ import (
 	"os"
 )
 
-
 func MakeJson(data interface{}) string {
 	str, err := json.Marshal(data)
 	if err != nil {
@@ -16,7 +13,6 @@ func MakeJson(data interface{}) string {
 	}
 	return string(json.RawMessage(str))
 }
-
 
 func DetectViewType(view string) string {
 	viewSelected := ""

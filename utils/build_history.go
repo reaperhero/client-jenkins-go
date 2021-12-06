@@ -2,11 +2,10 @@ package utils
 
 import (
 	"github.com/reaperhero/client-jenkins-go"
+	"golang.org/x/net/html"
 	"io"
 	"strconv"
 	"strings"
-
-	"golang.org/x/net/html"
 )
 
 // Parse jenkins ajax response in order find the current jenkins build history

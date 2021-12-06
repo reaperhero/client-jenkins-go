@@ -23,6 +23,3 @@ func TestShowBuildQueue(t *testing.T) {
 	}
 	fmt.Printf("Number of tasks in the build queue: %d\n", totalTasks)
 }
-
-
-

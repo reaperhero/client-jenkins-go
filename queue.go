@@ -2,7 +2,6 @@ package gojenkins
 
 import (
 	"context"
-	"encoding/json"
 	"strconv"
 )
 
