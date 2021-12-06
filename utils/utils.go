@@ -3,9 +3,19 @@
 package utils
 
 import (
+	"encoding/json"
 	"fmt"
 	"os"
 )
+
+
+func MakeJson(data interface{}) string {
+	str, err := json.Marshal(data)
+	if err != nil {
+		return ""
+	}
+	return string(json.RawMessage(str))
+}
 
 
 func DetectViewType(view string) string {

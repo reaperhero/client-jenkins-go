@@ -141,7 +141,7 @@ func (j *Jenkins) CreateNode(ctx context.Context, name string, numExecutors int,
 	qr := map[string]string{
 		"name": name,
 		"type": NODE_TYPE,
-		"json": utils.makeJson(map[string]interface{}{
+		"json": utils.MakeJson(map[string]interface{}{
 			"name":               name,
 			"nodeDescription":    description,
 			"remoteFS":           remoteFS,
@@ -559,7 +559,7 @@ func (j *Jenkins) CreateView(ctx context.Context, name string, viewType string) 
 		"name":   name,
 		"mode":   viewType,
 		"Submit": "OK",
-		"json": utils.makeJson(map[string]string{
+		"json": utils.MakeJson(map[string]string{
 			"name": name,
 			"mode": viewType,
 		}),

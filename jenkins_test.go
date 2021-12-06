@@ -2,6 +2,7 @@ package gojenkins
 
 import (
 	"context"
+	"github.com/reaperhero/client-jenkins-go/example"
 	"io/ioutil"
 	"os"
 	"testing"
@@ -16,7 +17,7 @@ var (
 )
 
 func TestInit(t *testing.T) {
-	if _, ok := os.LookupEnv(integration_test); !ok {
+	if _, ok := os.LookupEnv(example.integration_test); !ok {
 		return
 	}
 	ctx := context.Background()
@@ -26,7 +27,7 @@ func TestInit(t *testing.T) {
 }
 
 func TestCreateJobs(t *testing.T) {
-	if _, ok := os.LookupEnv(integration_test); !ok {
+	if _, ok := os.LookupEnv(example.integration_test); !ok {
 		return
 	}
 	job1ID := "Job1_test"
@@ -47,7 +48,7 @@ func TestCreateJobs(t *testing.T) {
 }
 
 func TestCreateNodes(t *testing.T) {
-	if _, ok := os.LookupEnv(integration_test); !ok {
+	if _, ok := os.LookupEnv(example.integration_test); !ok {
 		return
 	}
 	id1 := "node1_test"
@@ -72,7 +73,7 @@ func TestCreateNodes(t *testing.T) {
 }
 
 func TestDeleteNodes(t *testing.T) {
-	if _, ok := os.LookupEnv(integration_test); !ok {
+	if _, ok := os.LookupEnv(example.integration_test); !ok {
 		return
 	}
 	id := "node4_test"
@@ -83,7 +84,7 @@ func TestDeleteNodes(t *testing.T) {
 }
 
 func TestCreateBuilds(t *testing.T) {
-	if _, ok := os.LookupEnv(integration_test); !ok {
+	if _, ok := os.LookupEnv(example.integration_test); !ok {
 		return
 	}
 	ctx := context.Background()
@@ -102,7 +103,7 @@ func TestCreateBuilds(t *testing.T) {
 }
 
 func TestGetQueueItem(t *testing.T) {
-	if _, ok := os.LookupEnv(integration_test); !ok {
+	if _, ok := os.LookupEnv(example.integration_test); !ok {
 		return
 	}
 	ctx := context.Background()
@@ -116,7 +117,7 @@ func TestGetQueueItem(t *testing.T) {
 }
 
 func TestParseBuildHistory(t *testing.T) {
-	if _, ok := os.LookupEnv(integration_test); !ok {
+	if _, ok := os.LookupEnv(example.integration_test); !ok {
 		return
 	}
 	r, err := os.Open("_tests/build_history.txt")
@@ -128,7 +129,7 @@ func TestParseBuildHistory(t *testing.T) {
 }
 
 func TestCreateViews(t *testing.T) {
-	if _, ok := os.LookupEnv(integration_test); !ok {
+	if _, ok := os.LookupEnv(example.integration_test); !ok {
 		return
 	}
 	ctx := context.Background()
@@ -147,7 +148,7 @@ func TestCreateViews(t *testing.T) {
 }
 
 func TestGetAllJobs(t *testing.T) {
-	if _, ok := os.LookupEnv(integration_test); !ok {
+	if _, ok := os.LookupEnv(example.integration_test); !ok {
 		return
 	}
 	ctx := context.Background()
@@ -157,7 +158,7 @@ func TestGetAllJobs(t *testing.T) {
 }
 
 func TestGetAllNodes(t *testing.T) {
-	if _, ok := os.LookupEnv(integration_test); !ok {
+	if _, ok := os.LookupEnv(example.integration_test); !ok {
 		return
 	}
 	ctx := context.Background()
@@ -167,7 +168,7 @@ func TestGetAllNodes(t *testing.T) {
 }
 
 func TestGetAllBuilds(t *testing.T) {
-	if _, ok := os.LookupEnv(integration_test); !ok {
+	if _, ok := os.LookupEnv(example.integration_test); !ok {
 		return
 	}
 	ctx := context.Background()
@@ -180,7 +181,7 @@ func TestGetAllBuilds(t *testing.T) {
 }
 
 func TestGetLabel(t *testing.T) {
-	if _, ok := os.LookupEnv(integration_test); !ok {
+	if _, ok := os.LookupEnv(example.integration_test); !ok {
 		return
 	}
 	ctx := context.Background()
@@ -209,10 +210,10 @@ func TestGetLabel(t *testing.T) {
 }
 
 func TestBuildMethods(t *testing.T) {
-	if _, ok := os.LookupEnv(integration_test); !ok {
+	if _, ok := os.LookupEnv(example.integration_test); !ok {
 		return
 	}
-	if _, ok := os.LookupEnv(integration_test); !ok {
+	if _, ok := os.LookupEnv(example.integration_test); !ok {
 		return
 	}
 	ctx := context.Background()
@@ -223,10 +224,10 @@ func TestBuildMethods(t *testing.T) {
 }
 
 func TestGetSingleJob(t *testing.T) {
-	if _, ok := os.LookupEnv(integration_test); !ok {
+	if _, ok := os.LookupEnv(example.integration_test); !ok {
 		return
 	}
-	if _, ok := os.LookupEnv(integration_test); !ok {
+	if _, ok := os.LookupEnv(example.integration_test); !ok {
 		return
 	}
 	ctx := context.Background()
@@ -239,7 +240,7 @@ func TestGetSingleJob(t *testing.T) {
 }
 
 func TestEnableDisableJob(t *testing.T) {
-	if _, ok := os.LookupEnv(integration_test); !ok {
+	if _, ok := os.LookupEnv(example.integration_test); !ok {
 		return
 	}
 	ctx := context.Background()
@@ -251,7 +252,7 @@ func TestEnableDisableJob(t *testing.T) {
 }
 
 func TestCopyDeleteJob(t *testing.T) {
-	if _, ok := os.LookupEnv(integration_test); !ok {
+	if _, ok := os.LookupEnv(example.integration_test); !ok {
 		return
 	}
 	ctx := context.Background()
@@ -263,7 +264,7 @@ func TestCopyDeleteJob(t *testing.T) {
 }
 
 func TestGetPlugins(t *testing.T) {
-	if _, ok := os.LookupEnv(integration_test); !ok {
+	if _, ok := os.LookupEnv(example.integration_test); !ok {
 		return
 	}
 	ctx := context.Background()
@@ -272,7 +273,7 @@ func TestGetPlugins(t *testing.T) {
 }
 
 func TestGetViews(t *testing.T) {
-	if _, ok := os.LookupEnv(integration_test); !ok {
+	if _, ok := os.LookupEnv(example.integration_test); !ok {
 		return
 	}
 	ctx := context.Background()
@@ -282,7 +283,7 @@ func TestGetViews(t *testing.T) {
 }
 
 func TestGetSingleView(t *testing.T) {
-	if _, ok := os.LookupEnv(integration_test); !ok {
+	if _, ok := os.LookupEnv(example.integration_test); !ok {
 		return
 	}
 	ctx := context.Background()
@@ -294,7 +295,7 @@ func TestGetSingleView(t *testing.T) {
 }
 
 func TestCreateFolder(t *testing.T) {
-	if _, ok := os.LookupEnv(integration_test); !ok {
+	if _, ok := os.LookupEnv(example.integration_test); !ok {
 		return
 	}
 	ctx := context.Background()
@@ -313,7 +314,7 @@ func TestCreateFolder(t *testing.T) {
 }
 
 func TestCreateJobInFolder(t *testing.T) {
-	if _, ok := os.LookupEnv(integration_test); !ok {
+	if _, ok := os.LookupEnv(example.integration_test); !ok {
 		return
 	}
 	ctx := context.Background()
@@ -334,7 +335,7 @@ func TestCreateJobInFolder(t *testing.T) {
 }
 
 func TestGetFolder(t *testing.T) {
-	if _, ok := os.LookupEnv(integration_test); !ok {
+	if _, ok := os.LookupEnv(example.integration_test); !ok {
 		return
 	}
 	ctx := context.Background()
@@ -352,7 +353,7 @@ func TestGetFolder(t *testing.T) {
 	assert.Equal(t, folder2ID, folder2.GetName())
 }
 func TestInstallPlugin(t *testing.T) {
-	if _, ok := os.LookupEnv(integration_test); !ok {
+	if _, ok := os.LookupEnv(example.integration_test); !ok {
 		return
 	}
 	ctx := context.Background()
@@ -363,7 +364,7 @@ func TestInstallPlugin(t *testing.T) {
 }
 
 func TestConcurrentRequests(t *testing.T) {
-	if _, ok := os.LookupEnv(integration_test); !ok {
+	if _, ok := os.LookupEnv(example.integration_test); !ok {
 		return
 	}
 	ctx := context.Background()

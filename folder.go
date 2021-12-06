@@ -39,7 +39,7 @@ func (f *Folder) Create(ctx context.Context, name string) (*Folder, error) {
 		"name":   name,
 		"mode":   mode,
 		"Submit": "OK",
-		"json": utils.makeJson(map[string]string{
+		"json": utils.MakeJson(map[string]string{
 			"name": name,
 			"mode": mode,
 		}),

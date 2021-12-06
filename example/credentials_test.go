@@ -1,8 +1,9 @@
-package gojenkins
+package example
 
 import (
 	"context"
 	"fmt"
+	"github.com/reaperhero/client-jenkins-go"
 	"os"
 	"testing"
 
@@ -12,7 +13,7 @@ import (
 const integration_test string = "INTEGRATION"
 
 var (
-	cm         *CredentialsManager
+	cm         *gojenkins.CredentialsManager
 	domain     = "_"
 	dockerID   = "dockerIDCred"
 	sshID      = "sshIdCred"
@@ -25,7 +26,7 @@ func TestCreateUsernameCredentials(t *testing.T) {
 	if _, ok := os.LookupEnv(integration_test); !ok {
 		return
 	}
-	cred := UsernameCredentials{
+	cred := gojenkins.UsernameCredentials{
 		ID:       usernameID,
 		Scope:    scope,
 		Username: "usernameTest",
@@ -36,7 +37,7 @@ func TestCreateUsernameCredentials(t *testing.T) {
 	err := cm.Add(ctx, domain, cred)
 	assert.Nil(t, err, "Could not create credential")
 
-	getCred := UsernameCredentials{}
+	getCred := gojenkins.UsernameCredentials{}
 	err = cm.GetSingle(ctx, domain, cred.ID, &getCred)
 	assert.Nil(t, err, "Could not get credential")
 
@@ -49,7 +50,7 @@ func TestCreateFileCredentials(t *testing.T) {
 	if _, ok := os.LookupEnv(integration_test); !ok {
 		return
 	}
-	cred := FileCredentials{
+	cred := gojenkins.FileCredentials{
 		ID:          fileID,
 		Scope:       scope,
 		Filename:    "testFile.json",
@@ -60,7 +61,7 @@ func TestCreateFileCredentials(t *testing.T) {
 	err := cm.Add(ctx, domain, cred)
 	assert.Nil(t, err, "Could not create credential")
 
-	getCred := FileCredentials{}
+	getCred := gojenkins.FileCredentials{}
 	err = cm.GetSingle(ctx, domain, cred.ID, &getCred)
 	assert.Nil(t, err, "Could not get credential")
 
@@ -73,7 +74,7 @@ func TestCreateDockerCredentials(t *testing.T) {
 	if _, ok := os.LookupEnv(integration_test); !ok {
 		return
 	}
-	cred := DockerServerCredentials{
+	cred := gojenkins.DockerServerCredentials{
 		Scope:             scope,
 		ID:                dockerID,
 		Username:          "docker-name",
@@ -85,7 +86,7 @@ func TestCreateDockerCredentials(t *testing.T) {
 	err := cm.Add(ctx, domain, cred)
 	assert.Nil(t, err, "Could not create credential")
 
-	getCred := DockerServerCredentials{}
+	getCred := gojenkins.DockerServerCredentials{}
 	err = cm.GetSingle(ctx, domain, cred.ID, &getCred)
 	assert.Nil(t, err, "Could not get credential")
 
@@ -101,14 +102,14 @@ func TestCreateSSHCredentialsFullFlow(t *testing.T) {
 	if _, ok := os.LookupEnv(integration_test); !ok {
 		return
 	}
-	sshCred := SSHCredentials{
+	sshCred := gojenkins.SSHCredentials{
 		Scope:      scope,
 		ID:         sshID,
 		Username:   "RANDONMANE",
 		Passphrase: "password",
-		PrivateKeySource: &PrivateKeyFile{
+		PrivateKeySource: &gojenkins.PrivateKeyFile{
 			Value: "testValueofkey",
-			Class: KeySourceOnMasterType,
+			Class: gojenkins.KeySourceOnMasterType,
 		},
 	}
 
@@ -120,7 +121,7 @@ func TestCreateSSHCredentialsFullFlow(t *testing.T) {
 	err = cm.Update(ctx, domain, sshCred.ID, sshCred)
 	assert.Nil(t, err, "Could not update credential")
 
-	getSSH := SSHCredentials{}
+	getSSH := gojenkins.SSHCredentials{}
 	err = cm.GetSingle(ctx, domain, sshCred.ID, &getSSH)
 	assert.Nil(t, err, "Could not get ssh credential")
 
@@ -137,10 +138,10 @@ func TestCreateSSHCredentialsFullFlow(t *testing.T) {
 func TestMain(m *testing.M) {
 	//setup
 	ctx := context.Background()
-	jenkins := CreateJenkins(nil, "http://localhost:8080", "admin", "admin")
+	jenkins := gojenkins.CreateJenkins(nil, "http://localhost:8080", "admin", "admin")
 	jenkins.Init(ctx)
 
-	cm = &CredentialsManager{J: jenkins}
+	cm = &gojenkins.CredentialsManager{J: jenkins}
 	fmt.Printf("Debug, from TestMain\n")
 	//execute tests
 	os.Exit(m.Run())

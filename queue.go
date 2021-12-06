@@ -2,8 +2,11 @@ package gojenkins
 
 import (
 	"context"
+	"encoding/json"
 	"strconv"
 )
+
+
 
 type Queue struct {
 	Jenkins *Jenkins

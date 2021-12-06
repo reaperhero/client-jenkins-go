@@ -1,19 +1,4 @@
-// Copyright 2017 - Tessa Nordgren
-//
-// Licensed under the Apache License, Version 2.0 (the "License"): you may
-// not use this file except in compliance with the License. You may obtain
-// a copy of the License at
-//
-//     http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-// WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-// License for the specific language governing permissions and limitations
-// under the License.
-//
-// this file implements the pipeline-stage-view API:
-// https://github.com/jenkinsci/pipeline-stage-view-plugin/tree/master/rest-apipackage gojenkins
+package gojenkins
 
 import (
 	"context"
@@ -81,7 +66,6 @@ type PipelineNodeLog struct {
 	ConsoleURL string
 }
 
-// utility function to fill in the Base fields under PipelineRun
 func (run *PipelineRun) update() {
 	href := run.URLs["self"]["href"]
 	if matches := baseURLRegex.FindStringSubmatch(href); len(matches) > 1 {
@@ -122,10 +106,10 @@ func (job *Job) GetPipelineRun(ctx context.Context, id string) (pr *PipelineRun,
 	return pr, nil
 }
 
-func (pr *PipelineRun) GetPendingInputActions(ctx context.Context) (PIAs []PipelineInputAction, err error) {
+func (run *PipelineRun) GetPendingInputActions(ctx context.Context) (PIAs []PipelineInputAction, err error) {
 	PIAs = make([]PipelineInputAction, 0, 1)
-	href := pr.Base + "/wfapi/pendingInputActions"
-	_, err = pr.Job.Jenkins.Requester.GetJSON(ctx, href, &PIAs, nil)
+	href := run.Base + "/wfapi/pendingInputActions"
+	_, err = run.Job.Jenkins.Requester.GetJSON(ctx, href, &PIAs, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -133,10 +117,10 @@ func (pr *PipelineRun) GetPendingInputActions(ctx context.Context) (PIAs []Pipel
 	return PIAs, nil
 }
 
-func (pr *PipelineRun) GetArtifacts(ctx context.Context) (artifacts []PipelineArtifact, err error) {
+func (run *PipelineRun) GetArtifacts(ctx context.Context) (artifacts []PipelineArtifact, err error) {
 	artifacts = make([]PipelineArtifact, 0, 0)
-	href := pr.Base + "/wfapi/artifacts"
-	_, err = pr.Job.Jenkins.Requester.GetJSON(ctx, href, artifacts, nil)
+	href := run.Base + "/wfapi/artifacts"
+	_, err = run.Job.Jenkins.Requester.GetJSON(ctx, href, artifacts, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -144,10 +128,10 @@ func (pr *PipelineRun) GetArtifacts(ctx context.Context) (artifacts []PipelineAr
 	return artifacts, nil
 }
 
-func (pr *PipelineRun) GetNode(ctx context.Context, id string) (node *PipelineNode, err error) {
+func (run *PipelineRun) GetNode(ctx context.Context, id string) (node *PipelineNode, err error) {
 	node = new(PipelineNode)
-	href := pr.Base + "/execution/node/" + id + "/wfapi/describe"
-	_, err = pr.Job.Jenkins.Requester.GetJSON(ctx, href, node, nil)
+	href := run.Base + "/execution/node/" + id + "/wfapi/describe"
+	_, err = run.Job.Jenkins.Requester.GetJSON(ctx, href, node, nil)
 	if err != nil {
 		return nil, err
 	}

@@ -458,7 +458,7 @@ func (b *Build) GetRevisionBranch() string {
 }
 
 func (b *Build) IsGood(ctx context.Context) bool {
-	return (!b.IsRunning(ctx) && b.Raw.Result == STATUS_SUCCESS)
+	return !b.IsRunning(ctx) && b.Raw.Result == STATUS_SUCCESS
 }
 
 func (b *Build) IsRunning(ctx context.Context) bool {
